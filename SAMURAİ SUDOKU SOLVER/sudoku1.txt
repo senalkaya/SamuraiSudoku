@@ -1,0 +1,374 @@
+import javafx.scene.web.HTMLEditor;
+
+import javax.swing.*;
+import java.awt.*;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+public class Sudoku extends JPanel {
+
+
+
+    private Harita harita;
+    private  Solver solver;
+    private Grid grid;
+
+
+    public Sudoku(){
+
+   harita = new Harita();
+         solver = new Solver();
+         grid= new Grid();
+
+    }
+    public void paint(Graphics g) {
+        FileWriter fWriter;
+        PrintWriter pWriter = null;
+
+        {
+            try {
+                fWriter = new FileWriter("C:\\Users\\Asus\\IdeaProjects\\SamuraiSudoku\\SamuraiSudoku\\src\\yazdirma");
+                pWriter = new PrintWriter(fWriter);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        super.paint(g);
+        g.setColor(Color.WHITE);
+        g.fillRect(0,0,670,750);
+
+        for (int i=0 ; i<harita.dizi.length;i++){
+
+            for (int j=0; j<harita.dizi.length;j++){
+
+                if (i<6 && (j<9 || j>11)) {
+
+                    g.setColor(Color.BLACK);
+                    g.drawRect(j * 30, i * 30, 30, 30);
+
+                    if (j<9 && !harita.dizi[i].substring(j, j + 1).equals("*")){
+
+                        g.setFont(new Font("SansSerif", Font.PLAIN, 20));
+                        g.drawString(harita.dizi[i].substring(j, j + 1),j*30,(i+1)*30);
+                    }
+
+                    else if(j>11 && !harita.dizi[i].substring(j-3, j -2).equals("*")){
+
+                        g.setFont(new Font("SansSerif", Font.PLAIN, 20));
+                        g.drawString(harita.dizi[i].substring(j-3, j -2),j*30,(i+1)*30);
+
+                    }
+
+                }
+
+                else if(i>=6 && i<9){
+
+                    g.setColor(Color.BLACK);
+                    g.drawRect(j * 30, i * 30, 30, 30);
+
+                    if(!harita.dizi[i].substring(j, j + 1).equals("*")) {
+                        g.setFont(new Font("SansSerif", Font.PLAIN, 20));
+                        g.drawString(harita.dizi[i].substring(j, j + 1), j * 30, (i + 1) * 30);
+                    }
+
+                }
+
+                else if (i>=9 && i<12 && (j>5 && j<15)){
+
+                    g.setColor(Color.BLACK);
+                    g.drawRect(j * 30, i * 30, 30, 30);
+
+                    if(!harita.dizi[i].substring(j-6, j-5).equals("*")) {
+                        g.setFont(new Font("SansSerif", Font.PLAIN, 20));
+                        g.drawString(harita.dizi[i].substring(j-6, j - 5), j * 30, (i + 1) * 30);
+                    }
+
+                }
+
+                else if(i>=12 && i<15){
+
+                    g.setColor(Color.BLACK);
+                    g.drawRect(j * 30, i * 30, 30, 30);
+
+                    if(!harita.dizi[i].substring(j, j + 1).equals("*")) {
+                        g.setFont(new Font("SansSerif", Font.PLAIN, 20));
+                        g.drawString(harita.dizi[i].substring(j, j + 1), j * 30, (i + 1) * 30);
+                    }
+                }
+
+             else if (i>=15 && (j<9 || j>11)) {
+
+                    g.setColor(Color.BLACK);
+                    g.drawRect(j * 30, i * 30, 30, 30);
+
+                    if (j<9 && !harita.dizi[i].substring(j, j + 1).equals("*")){
+
+                        g.setFont(new Font("SansSerif", Font.PLAIN, 20));
+                        g.drawString(harita.dizi[i].substring(j, j + 1),j*30,(i+1)*30);
+                    }
+
+                    else if(j>11 && !harita.dizi[i].substring(j-3, j -2).equals("*")){
+
+                        g.setFont(new Font("SansSerif", Font.PLAIN, 20));
+                        g.drawString(harita.dizi[i].substring(j-3, j -2),j*30,(i+1)*30);
+
+
+                    }
+
+
+                }
+
+            }
+
+        }
+
+
+        Thread th = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                metod();
+                repaint();
+            }
+        });
+
+
+        Thread th2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                metod2();
+                repaint();
+            }
+        });
+
+
+
+
+        Thread th3 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                metod3();
+                repaint();
+
+
+            }
+
+        });
+        Thread th4 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                metod4();
+                repaint();
+            }
+
+        });
+
+        Thread th5 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                metod5();
+                repaint();
+
+            }
+
+        });
+
+        Thread th6 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                metod6();
+                repaint();
+            }
+        });
+
+
+        Thread th7 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                metod7();
+                repaint();
+            }
+        });
+
+
+
+
+        Thread th8 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                metod8();
+                repaint();
+
+
+            }
+
+        });
+        Thread th9 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                metod9();
+                repaint();
+            }
+
+        });
+
+        Thread th10 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                metod10();
+                repaint();
+
+            }
+
+        });
+
+
+
+        for (int i=0 ; i<9;i++){
+
+            for(int j=0;j<9;j++){
+
+
+                if (grid.grid1[i][j].equals("0")) {
+                    g.setFont(new Font("SansSerif", Font.PLAIN, 20));
+                    g.setColor(Color.red);
+                    g.drawString(String.valueOf(grid.ygrid1[i][j]), (j) * 30, (i+1) * 30);
+                    pWriter.println("i:"+j*30+" j:"+(i+1)*30+" noktasina"+grid.ygrid1[i][j]+" rakami yerlestirildi.");
+
+                   if (i>=6 && j>=6){
+
+                       grid.ygrid5[i-6][j-6]= grid.ygrid1[i][j];
+                       pWriter.println("i:"+j*30+" j:"+(i+1)*30+" noktasina"+grid.ygrid1[i][j]+" rakami yerlestirildi.");
+                   }
+
+                }
+
+                if (grid.grid2[i][j].equals("0")) {
+                    g.setFont(new Font("SansSerif", Font.PLAIN, 20));
+                    g.setColor(Color.red);
+                    g.drawString(String.valueOf(grid.ygrid2[i][j]), (j+12) * 30, (i+1) * 30);
+                    pWriter.println("i:"+(j+12)*30+" j:"+(i+1)*30+"noktasina"+grid.ygrid2[i][j]+" rakami yerlestirildi.");
+                    if (i>=6 && j<=2){
+
+                        grid.ygrid5[i-6][j+6]= grid.ygrid2[i][j];
+                        pWriter.println("i:"+(j+12)*30+" j:"+(i+1)*30+"noktasina"+grid.ygrid2[i][j]+" rakami yerlestirildi.");
+                    }
+
+                }
+
+                if (grid.grid3[i][j].equals("0")) {
+                    g.setFont(new Font("SansSerif", Font.PLAIN, 20));
+                    g.setColor(Color.red);
+                    g.drawString(String.valueOf(grid.ygrid3[i][j]), (j) * 30, (i+13) * 30);
+                    pWriter.println("i:"+(j)*30+" j:"+(i+13)*30+" noktasina"+grid.ygrid3[i][j]+" rakami yerlestirildi.");
+                    if (i<=2 && j>=6){
+
+                        grid.ygrid5[i+6][j-6]= grid.ygrid3[i][j];
+                        pWriter.println("i:"+(j)*30+" j:"+(i+13)*30+" noktasina"+grid.ygrid3[i][j]+" rakami yerlestirildi.");
+                    }
+
+                }
+
+                if (grid.grid4[i][j].equals("0")) {
+                    g.setFont(new Font("SansSerif", Font.PLAIN, 20));
+                    g.setColor(Color.red);
+                    g.drawString(String.valueOf(grid.ygrid4[i][j]), (j+12) * 30, (i+13) * 30);
+                    pWriter.println("i:"+(j+12)*30+" j:"+(i+13)*30+" noktasina"+grid.ygrid4[i][j]+" rakami yerlestirildi.");
+                    if (i<=2 && j<=2){
+
+                        grid.ygrid4[i][j]=grid.ygrid5[i+6][j+6];
+                        pWriter.println("i:"+(j+12)*30+" j:"+(i+13)*30+" noktasina"+grid.ygrid4[i][j]+" rakami yerlestirildi.");
+                    }
+
+                }
+
+                if (grid.grid5[i][j].equals("0")) {
+                    g.setFont(new Font("SansSerif", Font.PLAIN, 20));
+                    g.setColor(Color.red);
+                    g.drawString(String.valueOf(grid.ygrid5[i][j]), (j+6) * 30, (i+7) * 30);
+                    pWriter.println("i:"+(j+6)*30+" j:"+(i+7)*30+" noktasina"+grid.ygrid5[i][j]+" rakami yerlestirildi.");
+
+                }
+
+
+
+
+            }
+
+
+
+
+        }
+
+
+        th.start();
+        th2.start();
+        th3.start();
+        th4.start();
+        th5.start();
+//        th6.start();
+//        th7.start();
+//        th8.start();
+//        th9.start();
+//        th10.start();
+
+
+    }
+
+
+    public void metod(){
+
+        solver.solveSuduko(grid.ygrid1, 0, 0);
+
+    }
+    public void metod2(){
+
+        solver.solveSuduko(grid.ygrid2, 0,0);
+
+    }
+    public void metod3(){
+
+        solver.solveSuduko(grid.ygrid3, 0,0);
+
+    }
+    public void metod4(){
+
+        solver.solveSuduko(grid.ygrid4, 0,0);
+
+    }
+    public void metod5(){
+
+        solver.solveSuduko(grid.ygrid5, 0,0);
+
+    }
+
+
+    public void metod6(){
+
+        solver.solveSuduko(grid.ygrid1, 3,4);
+
+    }
+    public void metod7(){
+
+        solver.solveSuduko(grid.ygrid2, 5,6);
+
+    }
+    public void metod8(){
+
+        solver.solveSuduko(grid.ygrid3, 6,1);
+
+    }
+    public void metod9(){
+
+        solver.solveSuduko(grid.ygrid4, 8,8);
+
+    }
+    public void metod10(){
+
+        solver.solveSuduko(grid.ygrid5, 4,2);
+
+    }
+
+}

@@ -1,0 +1,148 @@
+import javax.swing.*;
+
+public class Grid {
+
+    String grid1[][] = new String[9][9];
+    String grid2[][] = new String[9][9];
+    String grid3[][] = new String[9][9];
+    String grid4[][] = new String[9][9];
+    String grid5[][] = new String[9][9];
+
+    int ygrid1[][]= new int[9][9];
+    int ygrid2[][]= new int[9][9];
+    int ygrid3[][]= new int[9][9];
+    int ygrid4[][]= new int[9][9];
+    int ygrid5[][]= new int[9][9];
+
+
+    public Grid(){
+
+
+        Harita harita = new Harita();
+
+
+        System.out.println("----------------------------------------------------------");
+
+        //**************   1 ve 3. gridler için*****************
+
+        for (int i = 0; i <= 20; i++) {
+
+
+            for (int j = 0; j <= 8; j++) {
+
+
+                if (i < 9) {
+                    grid1[i][j] = harita.dizi[i].substring(j, j + 1);
+                } else if (i >= 9 && i < 12) {
+                    continue;
+                } else if (i >= 12) {
+                    grid3[i - 12][j] =harita.dizi[i].substring(j, j + 1);
+                }
+
+            }
+        }
+
+
+        //**************   2 ve 4. gridler için*****************
+
+        for (int i = 0; i <= 20; i++) {
+
+
+            for (int j = 0; j <= 8; j++) {
+
+
+                if (i < 6) {
+
+                    grid2[i][j] = harita.dizi[i].substring(j + 9, j + 10);
+                } else if (i >= 6 && i < 9) {
+
+                    grid2[i][j] = harita.dizi[i].substring(j + 12, j + 13);
+                } else if (i >= 9 && i < 12) {
+                    continue;
+                } else if (i >= 12 && i < 15) {
+                    grid4[i - 12][j] =harita.dizi[i].substring(j + 12, j + 13);
+                } else if (i >= 15) {
+
+                    grid4[i - 12][j] =harita.dizi[i].substring(j + 9, j + 10);
+
+                }
+
+
+            }
+        }
+
+
+//****************************  5. grid için*****************
+
+        for (int i = 6; i <= 14; i++) {
+
+
+            for (int j = 0; j <= 8; j++) {
+
+
+                if (i >= 6 && i < 9) {
+
+                    grid5[i - 6][j] = harita.dizi[i].substring(j + 6, j + 7);
+                }
+                else if (i >= 9 && i < 12) {
+
+                    grid5[i - 6][j] =harita.dizi[i].substring(j, j + 1);
+
+                }
+
+                else{
+
+                    grid5[i - 6][j] = harita.dizi[i].substring(j+6, j + 7);
+                }
+
+
+            }
+
+        }
+
+
+
+        for (int i=0;i<=8;i++){
+
+            for (int j=0;j<=8;j++){
+
+                if (grid1[i][j].equals(String.valueOf('*'))){
+                    grid1[i][j]="0";
+                }
+                if (grid2[i][j].equals(String.valueOf('*'))){
+                    grid2[i][j]="0";
+                }
+                if (grid3[i][j].equals(String.valueOf('*'))){
+                    grid3[i][j]="0";
+                }
+                if (grid4[i][j].equals(String.valueOf('*'))){
+                    grid4[i][j]="0";
+                }
+                if (grid5[i][j].equals(String.valueOf('*'))){
+                    grid5[i][j]="0";
+                }
+
+               else
+                   continue;
+
+            }
+
+        }
+
+        for (int i=0;i<=8;i++){
+
+            for (int j=0;j<=8;j++){
+
+                ygrid1[i][j]=Integer.parseInt(grid1[i][j]);
+                ygrid2[i][j]=Integer.parseInt(grid2[i][j]);
+                ygrid3[i][j]=Integer.parseInt(grid3[i][j]);
+                ygrid4[i][j]=Integer.parseInt(grid4[i][j]);
+                ygrid5[i][j]=Integer.parseInt(grid5[i][j]);
+
+            }
+
+        }
+
+    }
+
+}
